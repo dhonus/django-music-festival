@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html style="height: 100%; ">
+<head>
+    <title>DSII HON0102</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body style="height: 100%; ">
+    <div class="form-check form-switch" style="display:none;">
+        <input type="checkbox" class="form-check-input" id="darkSwitch" />
+        <label class="custom-control-label" for="darkSwitch">Tmavý mód</label>
+      </div>
+      <script src="{% static 'dark.js' %}"></script>
+    <div class="col p-2 bd-highlight" style="height: 100%;">
+        <form action="editEmployee" method="post"  class="border" style="padding:1em; height: 100%;">
+            {% csrf_token %}
+            <label>Jméno zaměstnance:</label>
+            <input style="border: 2px solid silver; " value="{{staff.first_name}}" id="jmeno" class="form-control" name="fname" size="30" />
+            <label>Příjmení zaměstnance:</label>
+            <input style="border: 2px solid silver; " value="{{staff.last_name}}" id="jmeno" class="form-control" name="lname" size="30" />
+            <input style="display:none; border: 2px solid silver; " value = "{{staff.id}}" type="text" id="staffId" aria-label="staffId" name="staffId" class="form-control">
+            <label>Role:</label>
+            <input style="display:none; border: 2px solid silver; " type="text" id="hack" aria-label="hack" name="hack" class="form-control">
+            <div name="dropdown" class="dropdown">
+                <button name="podiumDropdown" id="podiumDropdown" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{staff.role}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                        <li><a onclick='podiumChoice("Zaměstnanec")' class="dropdown-item" href="#">Zaměstnanec</a></li>
+                        <li><a onclick='podiumChoice("Pořadatel")' class="dropdown-item" href="#">Pořadatel</a></li>
+                </ul>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Uložit</button>
+        </form>
+    </div>
+
+<script>
+    function podiumChoice(role){
+        document.getElementById('podiumDropdown').textContent = role;
+        document.getElementById('hack').value = role;
+    }
+</script>
+</body>
+</html>

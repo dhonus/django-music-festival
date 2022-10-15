@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html style="height: 100%; ">
+<head>
+    <title>DSII HON0102</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<div class="form-check form-switch" style="display:none;">
+    <input type="checkbox" class="form-check-input" id="darkSwitch" />
+    <label class="custom-control-label" for="darkSwitch">Tmavý mód</label>
+  </div>
+  <script src="{% static 'dark.js' %}"></script>
+<body style="height: 100%; ">
+    <div class="col p-2 bd-highlight" style="height: 100%;">
+        <form action="addPerformance" method="post"  class="border" style="padding:1em; height: 100%;">
+            {% csrf_token %}
+            <label>Jméno umělce:</label>
+            <input style="border: 2px solid silver; " id="jmeno" class="form-control" name="name" size="30" />
+            <br>
+            <label>Čas příjezdu:</label>
+            <div class="input-group">
+                <input style="border: 2px solid silver; " type="text" id="den" aria-label="den" name="den" placeholder="Den"  class="form-control">
+                <input style="border: 2px solid silver; " type="text" id="mesic" aria-label="mesic" name="mesic" placeholder="Měsíc"  class="form-control">
+                <input style="border: 2px solid silver; " type="text" id="rok" aria-label="rok" name="rok" placeholder="Rok"  class="form-control"> <br>
+                <input style="border: 2px solid silver; " type="text" id="hodiny" aria-label="hodiny" name="hodiny" placeholder="Hodiny"  class="form-control">
+                <input style="border: 2px solid silver; " type="text" id="minuty" aria-label="minuty" name="minuty" placeholder="Minuty"  class="form-control">
+                <input style="display:none; border: 2px solid silver; " type="text" id="hack" aria-label="hack" name="hack" class="form-control">
+                <input style="display:none; border: 2px solid silver; " type="text" id="hack2" aria-label="hack2" name="hack2" class="form-control">
+            </div>
+            <br>
+            <div name="dropdown2" class="dropdown">
+                <button name="genreDropdown" id="genreDropdown" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                    None
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2" >
+                    {% for genre in genres %}
+                        <li><a onclick='genreChoice("{{genre.name}}", {{genre.id}})' class="dropdown-item" href="#">{{genre.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <br>
+            <label>Ročník festivalu:</label>
+            <input type="text" name="iteration" aria-label="iteration" placeholder="Prázdné pro aktuální"  class="form-control">
+            <br>
+            <div name="dropdown" class="dropdown">
+                <button name="podiumDropdown" id="podiumDropdown" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Main Stage
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+                    {% for podium in podiums %}
+                        <li><a onclick='podiumChoice("{{podium.name}}", {{podium.id}})' class="dropdown-item" href="#">{{podium.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Přidat umělce</button>
+        </form>
+    </div>
+
+<script>
+    function podiumChoice(thePodium, thePodiumId){
+        document.getElementById('podiumDropdown').textContent = thePodium;
+        document.getElementById('hack').value = thePodiumId;
+    }
+    function genreChoice(theGenre, theId){
+        document.getElementById('genreDropdown').textContent = theGenre;
+        document.getElementById('hack2').value = theGenre;
+    }
+
+    setInterval(function() {
+        window.addEventListener('load', (event) => {
+            document.getElementById('confirm').disabled = true;
+        });
+        var lastday = function(y,m){
+            return  new Date(y, m +1, 0).getDate();
+        }
+
+        let validity = true;
+        if(document.getElementById('jmeno').value == "") {
+            validity = false;
+            document.getElementById('jmeno').style.borderColor = "red";
+        } else document.getElementById('jmeno').style.borderColor = "silver";
+        if(document.getElementById('den').value == "" || isNaN(document.getElementById('den').value) || document.getElementById('den').value == "0" ||
+            document.getElementById('den').value > lastday(document.getElementById('rok').value, document.getElementById('mesic').value) || document.getElementById('den').value < 1) {
+            validity = false;
+            document.getElementById('den').style.borderColor = "red";
+        } else document.getElementById('den').style.borderColor = "silver";
+        if(document.getElementById('mesic').value == "" || isNaN(document.getElementById('mesic').value) ||  document.getElementById('mesic').value == "0" ||
+            document.getElementById('mesic').value > 12 || document.getElementById('mesic').value < 1) {
+            validity = false;
+            document.getElementById('mesic').style.borderColor = "red";
+        } else document.getElementById('mesic').style.borderColor = "silver";
+        if(document.getElementById('hodiny').value == "" || isNaN(document.getElementById('hodiny').value) ||
+            document.getElementById('hodiny').value > 24 || document.getElementById('hodiny').value < 0) {
+            validity = false;
+            document.getElementById('hodiny').style.borderColor = "red";
+        } else document.getElementById('hodiny').style.borderColor = "silver";
+        if(document.getElementById('minuty').value == "" || isNaN(document.getElementById('minuty').value) ||
+            document.getElementById('minuty').value > 60 || document.getElementById('minuty').value < 0) {
+            validity = false;
+            document.getElementById('minuty').style.borderColor = "red";
+        } else document.getElementById('minuty').style.borderColor = "silver";
+        if(document.getElementById('rok').value == "" || isNaN(document.getElementById('rok').value) ||
+            document.getElementById('rok').value < 2020 || document.getElementById('rok').value > 2100) {
+            validity = false;
+            document.getElementById('rok').style.borderColor = "red";
+        } else document.getElementById('rok').style.borderColor = "silver";
+
+        if (!validity){
+            document.getElementById('confirm').disabled = true;
+        } else {
+            document.getElementById('confirm').disabled = false;
+        }
+    }, 1000);
+</script>
+</body>
+</html>

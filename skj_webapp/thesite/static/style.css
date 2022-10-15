@@ -1,0 +1,61 @@
+/*!
+ * Dark Mode Switch v1.0.1 (https://github.com/coliff/dark-mode-switch)
+ * Copyright 2021 C.Oliff
+ * Licensed under MIT (https://github.com/coliff/dark-mode-switch/blob/main/LICENSE)
+ */
+
+ [data-theme="dark"] {
+  background-color: #111 !important;
+  color: #eee;
+}
+[data-theme="dark"] .navbar-light, [data-theme="dark"] .navbar-brand, [data-theme="dark"] .navbar-light li, [data-theme="dark"] .nav-link{
+  color: whitesmoke !important;
+}
+
+
+[data-theme="dark"] td, [data-theme="dark"] tr, [data-theme="dark"] th, [data-theme="dark"] p{
+  color: #fff !important;
+}
+[data-theme="dark"] .text-center, [data-theme="dark"]  .text-center p{
+  background-color: #222 !important;
+}
+
+
+[data-theme="dark"] .bg-black {
+  background-color: #fff !important;
+}
+
+[data-theme="dark"] .bg-dark {
+  background-color: #eee !important;
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: #222 !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: #000 !important;
+}
+.btn-primary{
+  color: #fff;
+  background-color: #3e79c4;
+  border-color: #346cb3;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #2f66ac;
+  border-color: #2f66ac;
+}
+[data-theme="dark"] form input{
+background: #1e1d1d;
+color: white;
+}
+[data-theme="dark"] form input:focus{
+  background: #1e1d1d;
+  color: white;
+  }
+  [data-theme="dark"] .regular-back, [data-theme="dark"] table{
+    background: #1e1e1e;
+    border:1px solid black!important;
+  }
+  

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zaměstnanec - SKJ HON0102</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'index' %}">SKJ projekt HON0102</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'index' %}">Domů</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'employee' %}">Zaměstnanec</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'busyness' %}">Vytížení</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'owner' %}">Administrace</a>
+                </li>
+            </ul>
+            <div class="form-check form-switch">
+                <input type="checkbox" class="form-check-input" id="darkSwitch" />
+                <label class="custom-control-label" for="darkSwitch">Tmavý mód</label>&nbsp;&nbsp;
+              </div>
+              <script src="{% static 'dark.js' %}"></script>
+            <form class="d-flex" action="https://homel.vsb.cz/~hon0102/hon0102_4.pdf">
+                <input class="btn btn-outline-success" target=_blank type="submit" value="Specifikace" />
+            </form>
+        </div>
+    </div>
+</nav>
+</h1>
+<div class="container">
+    <div class="row align-items-start d-flex p-2 bd-highlight">
+        <div class="p-2 flex-grow-2 bd-highlight col" style="flex:2; ">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Jméno</th>
+                        <th scope="col">Příjmení</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Upravit</th>
+                        <th scope="col">Upravit django</th>
+                        <th scope="col">Propustit</th>
+                    </tr>
+                </thead>
+            {% for member in staff %}
+            <tr>
+                <td scope="col">{{member.first_name}}</td>
+                <td scope="col">{{member.last_name}}</td>
+                <td scope="col">{{member.role}}</td>
+                <td>
+                    <a onclick="editEmployeePopup({{member.pk}})" href="#"/>
+                    Upravit
+                </a>
+                </td>
+                <td>
+                    <a onclick="editEmployeePopupForm({{member.pk}})" href="#"/>
+                    Upravit Django
+                </a>
+                </td>
+                <td>
+                    <a class="link-danger" href="delEmployee?id={{member.pk}}">
+                        Propustit
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+        <br>
+        </div>
+        <div class="col p-2 bd-highlight">
+            <button type="button" onclick="addEmployeePopup()" class="btn btn-primary pull-right">Přidat zaměstnance</button>
+            <br><br>
+            <button type="button" onclick="addEmployeeFormPopup()" class="btn btn-primary pull-right">Přidat zaměstnance django form</button>
+            <br><br>
+            <button type="button" onclick="festival()" class="btn btn-danger">Vyhlásit nový ročník</button>
+            <br><br>
+            <button type="button" onclick="festivalForm()" class="btn btn-danger">Vyhlásit nový ročník django form</button>
+        </div>
+</div>
+<script>
+    function addEmployeePopup()
+    {
+        window.open('/thesite/addEmployee', 'addEmployee', 'height=400, width=400');
+        return false;
+    }
+    function addEmployeeFormPopup()
+    {
+        window.open('/thesite/addEmployeeForm', 'addEmployeeForm', 'height=400, width=400');
+        return false;
+    }
+    function festival()
+    {
+        window.open('/thesite/festival', 'festival', 'height=500, width=500');
+        return false;
+    }
+    function festivalForm()
+    {
+        window.open('/thesite/festivalForm', 'festivalForm', 'height=500, width=500');
+        return false;
+    }
+    function editEmployeePopup(theId)
+    {
+        window.open('/thesite/editEmployee?id=' + theId, 'editEmployee', 'height=400, width=400');
+        return false;
+    } function editEmployeePopupForm(theId)
+    {
+        window.open('/thesite/editEmployeeForm?id=' + theId, 'editEmployeeForm', 'height=400, width=400');
+        return false;
+    }
+</script>
+</body>
+</html>

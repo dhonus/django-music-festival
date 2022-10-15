@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    window.addEventListener('load', (event) => {
+        window.opener.location.href = window.opener.location.href;
+        window.onunload = refreshParent;
+        function refreshParent() {
+            window.opener.location.reload();
+        }
+        window.close();
+    });
+</script>
+<p>Nyní můžete zavřít toto okno.</p>
+</body>
+</html>
